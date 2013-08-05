@@ -7,8 +7,14 @@ public:
 	CSHMatch(void);
 	virtual ~CSHMatch(void);
 
-	virtual int Math(ENTRUST entrust);
+	//撮合.
+	virtual int Match(ENTRUST entrust);
 
+	//限价撮合.
+	virtual int LimitPriceMatch(ENTRUST entrust);
+
+	//市价撮合.
+	virtual int MarketPriceMatch(ENTRUST entrust);
 	
 };
 

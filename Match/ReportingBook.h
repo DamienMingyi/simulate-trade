@@ -29,6 +29,8 @@ public:
 
 	virtual int Add(QUOTATION quotation);//添加到报价板.撮合后调用.
 	
+	//virtual int Get
+
 	/**
 	*	删除链表中的报价单.撮合后调用.
 	*	@param nKey 报价板中的价格.

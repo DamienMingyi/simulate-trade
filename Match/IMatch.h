@@ -12,11 +12,18 @@ public:
 	CMatch(void);
 	virtual ~CMatch(void);
 
-	virtual int Math(ENTRUST entrust);
+	//撮合.
+	virtual int Match(ENTRUST entrust);
+
+	//限价撮合.
+	virtual int LimitPriceMatch(ENTRUST entrust);
+
+	//市价撮合.
+	virtual int MarketPriceMatch(ENTRUST entrust);
 public:
 
-	CSReportingBook m_sellReportingBook;
-	CBReportingBook m_buyReportingBook;
+	CSReportingBook m_sellReportingBook;		//卖方申报簿.
+	CBReportingBook m_buyReportingBook;			//买方申报簿.
 };
 
 #endif

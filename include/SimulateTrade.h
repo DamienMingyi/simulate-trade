@@ -6,8 +6,22 @@
 #pragma pack(push)
 #pragma pack(push,1)
 
-#define ENTRUST_BUY			1
-#define ENTRUST_SELL		2
+#define ENTRUST_BUY					1		//买
+#define ENTRUST_SELL				2		//卖
+
+#define ENTRUST_LIMIT_PRICE			0		//限价.其他为市价.
+
+//市价.
+#define ENTRUST_MARKET_PRICE_SH_1	1		//上海-最优五档即时成交剩余成交.
+#define ENTRUST_MARKET_PRICE_SH_2	2		//上海-最优五档即时成交剩余转限价.
+
+#define ENTRUST_MARKET_PRICE_SZ_1	11		//深圳-对手最优价格.
+#define ENTRUST_MARKET_PRICE_SZ_2	12		//深圳-本方最优价格.
+#define ENTRUST_MARKET_PRICE_SZ_3	13		//深圳-最优五档即时成交剩余撤销.
+#define ENTRUST_MARKET_PRICE_SZ_4	14		//深圳-即时成交剩余撤销(FAK).
+#define ENTRUST_MARKET_PRICE_SZ_5	15		//深圳-全额成交或撤销委托(FOK).
+
+
 
 //报价.
 typedef struct tagQuotation
@@ -44,13 +58,14 @@ typedef struct tagEntrust
 							//债券则为10的倍数.不得高于10万张.
 	UINT	nBS;			//买卖方向.1：买  2：卖.
 
-	void toQUOTATION(QUOTATION &quotation)
+	void toQuotation(QUOTATION &quotation)
 	{
 		quotation.ID		= ID;
 		quotation.nPrice	= nPrice;
 		quotation.nCount	= nCount;
 		quotation.nBS		= nBS;
 	}
+
 
 }ENTRUST,*LPENTRUST;
 

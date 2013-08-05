@@ -15,6 +15,7 @@ public:
 
 public:
 	virtual int Add(QUOTATION quotation);//添加到报价板.撮合后调用.
+	//virtual int Get();
 	virtual int Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll = false);//从报价板中撤单.撮合后调用.
 
 private:
