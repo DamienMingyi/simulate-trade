@@ -22,7 +22,16 @@ public:
 
 	//市价撮合.
 	virtual int MarketPriceMatch(ENTRUST entrust);
-	virtual int MarketBuy(ENTRUST &entrust);
-	virtual int MarketSell(ENTRUST &entrust);
+
+	//深圳-对手最优价格.
+	virtual int OtherSideOptimalPrice(ENTRUST entrust);
+	//深圳-本方最优价格.
+	virtual int OurSideOptimalPrice(ENTRUST entrust);
+	//深圳-最优五档即时成交剩余撤销.
+	virtual int Optimal5TurnTOCancel(ENTRUST entrust);
+	//深圳-即时成交剩余撤销(FAK).
+	virtual int ImmediateTurnTOCancel(ENTRUST entrust);
+	//深圳-全额成交或撤销委托(FOK).
+	virtual int AllTransactionsOrCancel(ENTRUST entrust);
 };
 

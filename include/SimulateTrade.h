@@ -6,20 +6,20 @@
 #pragma pack(push)
 #pragma pack(push,1)
 
-#define ENTRUST_BUY					1		//买
-#define ENTRUST_SELL				2		//卖
+#define ENTRUST_BUY 					1		//买
+#define ENTRUST_SELL 					2		//卖
 
-#define ENTRUST_LIMIT_PRICE			0		//限价.其他为市价.
+#define ENTRUST_LIMIT_PRICE 			0		//限价.其他为市价.
 
 //市价.
-#define ENTRUST_MARKET_PRICE_SH_1	1		//上海-最优五档即时成交剩余撤销.
-#define ENTRUST_MARKET_PRICE_SH_2	2		//上海-最优五档即时成交剩余转限价.
+#define ENTRUST_MARKET_PRICE_SH_1		1		//上海-最优五档即时成交剩余撤销.
+#define ENTRUST_MARKET_PRICE_SH_2		2		//上海-最优五档即时成交剩余转限价.
 
-#define ENTRUST_MARKET_PRICE_SZ_1	11		//深圳-对手最优价格.
-#define ENTRUST_MARKET_PRICE_SZ_2	12		//深圳-本方最优价格.
-#define ENTRUST_MARKET_PRICE_SZ_3	13		//深圳-最优五档即时成交剩余撤销.
-#define ENTRUST_MARKET_PRICE_SZ_4	14		//深圳-即时成交剩余撤销(FAK).
-#define ENTRUST_MARKET_PRICE_SZ_5	15		//深圳-全额成交或撤销委托(FOK).
+#define ENTRUST_MARKET_PRICE_SZ_1		11		//深圳-对手最优价格.
+#define ENTRUST_MARKET_PRICE_SZ_2		12		//深圳-本方最优价格.
+#define ENTRUST_MARKET_PRICE_SZ_3		13		//深圳-最优五档即时成交剩余撤销.
+#define ENTRUST_MARKET_PRICE_SZ_4		14		//深圳-即时成交剩余撤销(FAK).
+#define ENTRUST_MARKET_PRICE_SZ_5		15		//深圳-全额成交或撤销委托(FOK).
 
 
 
@@ -52,10 +52,10 @@ typedef struct tagEntrust
 	char	szSeatCode[8];	//劵商.机构席位代码.
 	char	szCode[8];		//代码.股票代码.
 	UINT	nPrice;			//价格.0则市价单.*10000.
-							// A股、债券、债券质押式回购交易的申报价格最小变动单位为0.01元人民币；
-							//基金交易为0.001元人民币；B股交易为0.01港元。
+	// A股、债券、债券质押式回购交易的申报价格最小变动单位为0.01元人民币；
+	//基金交易为0.001元人民币；B股交易为0.01港元。
 	UINT	nCount;			//数量.买100的倍数.卖100的倍数或小于100的一次性全部卖出.不得高于100万股(份.基金.权证).
-							//债券则为10的倍数.不得高于10万张.
+	//债券则为10的倍数.不得高于10万张.
 	UINT	nBS;			//买卖方向.1：买  2：卖.
 
 	void toQuotation(QUOTATION &quotation)

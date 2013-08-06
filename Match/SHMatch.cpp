@@ -111,9 +111,23 @@ int CSHMatch::Optimal5TurnTOLimit(ENTRUST entrust)
 			Optimal5Buy(quotation);
 
 			//市价撮合后剩余的单.转入限价单.
+			LPMAP_BUY_REPORTINGBOOK pBuyReportingBook = m_buyReportingBook.GetReportingBook();
+			MAP_BUY_REPORTINGBOOK::iterator iter = pBuyReportingBook->begin();
+
 			if (quotation.nCount > 0)
 			{
-				m_buyReportingBook.Add(quotation);
+				for ( ; iter != pBuyReportingBook->end(); ++iter)
+				{
+					if ((iter->second).size() > 0)
+					{
+						//剩余转入限价单.价格为本分最优价.
+						quotation.nPrice = iter->first;
+						m_buyReportingBook.Add(quotation);
+					}
+				}
+
+				//本分没有委托.撤销.
+				
 			}
 
 		}
@@ -126,9 +140,21 @@ int CSHMatch::Optimal5TurnTOLimit(ENTRUST entrust)
 			Optimal5Sell(quotation);
 
 			//市价撮合后剩余的单.转入限价单.
-			if (quotation.nCount)
-			{
-				m_sellReportingBook.Add(quotation);
+			LPMAP_SELL_REPORTINGBOOK pSellReportingBook = m_sellReportingBook.GetReportingBook();
+			MAP_SELL_REPORTINGBOOK::iterator iter = pSellReportingBook->begin();
+			if (quotation.nCount > 0)
+			{				
+				for ( ; iter != pSellReportingBook->end(); ++iter)
+				{
+					if ((iter->second).size() > 0)
+					{
+						//剩余转入限价单.价格为本分最优价.
+						quotation.nPrice = iter->first;
+						m_sellReportingBook.Add(quotation);
+					}
+				}
+
+				//本分没有委托.撤销.
 			}
 
 		}
