@@ -41,11 +41,6 @@ int CSZMatch::Match(ENTRUST entrust)
 	return 0;
 }
 
-//限价撮合.
-int CSZMatch::LimitPriceMatch(ENTRUST entrust)
-{
-	return 0;
-}
 
 
 //市价撮合.
@@ -55,3 +50,12 @@ int CSZMatch::MarketPriceMatch(ENTRUST entrust)
 }
 
 
+int CSZMatch::MarketBuy(ENTRUST &entrust)
+{
+	return 0;
+}
+
+int CSZMatch::MarketSell(ENTRUST &entrust)
+{
+	return 0;
+}

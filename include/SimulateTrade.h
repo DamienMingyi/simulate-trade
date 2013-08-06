@@ -12,7 +12,7 @@
 #define ENTRUST_LIMIT_PRICE			0		//限价.其他为市价.
 
 //市价.
-#define ENTRUST_MARKET_PRICE_SH_1	1		//上海-最优五档即时成交剩余成交.
+#define ENTRUST_MARKET_PRICE_SH_1	1		//上海-最优五档即时成交剩余撤销.
 #define ENTRUST_MARKET_PRICE_SH_2	2		//上海-最优五档即时成交剩余转限价.
 
 #define ENTRUST_MARKET_PRICE_SZ_1	11		//深圳-对手最优价格.
@@ -41,7 +41,7 @@ typedef struct tagEntrust
 	UINT64	ID;				//委托ID.
 	UINT	nDeclareType;	//申报类型.0：限价. 
 							//其他：市价.
-							//1：上海-最优五档即时成交剩余成交.
+							//1：上海-最优五档即时成交剩余撤销.
 							//2：上海-最优五档即时成交剩余转限价.
 							//11：深圳-对手最优价格.
 							//12：深圳-本方最优价格.

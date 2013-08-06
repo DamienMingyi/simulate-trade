@@ -13,15 +13,23 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 
 	//限价撮合.
-	virtual int LimitPriceMatch(ENTRUST entrust);
-	virtual int LinitBuy(QUOTATION &quotation);
-	virtual int LinitSell(QUOTATION &quotation);
+	//virtual int LimitPriceMatch(ENTRUST entrust);
+	//virtual int LinitBuy(QUOTATION &quotation);
+	//virtual int LinitSell(QUOTATION &quotation);
 
 	//////////////////////////////////////////////////////////////////////////
 
 	//市价撮合.
 	virtual int MarketPriceMatch(ENTRUST entrust);
-	virtual int MarketBuy(ENTRUST &entrust);
-	virtual int MarketSell(ENTRUST &entrust);
+	//1：上海-最优五档即时成交剩余撤销.
+	virtual int Optimal5_Cancel(ENTRUST entrust);
+	virtual int Optimal5_Cancel_Buy(QUOTATION &quotation);
+	virtual int Optimal5_Cancel_Sell(QUOTATION &quotation);
+	//2：上海-最优五档即时成交剩余转限价.
+	virtual int Optimal5_Limit(ENTRUST entrust);
+	virtual int Optimal5_Limit_Buy(QUOTATION &quotation);
+	virtual int Optimal5_Limit_Sell(QUOTATION &quotation);
+
+	
 };
 

@@ -17,6 +17,8 @@ public:
 
 	//限价撮合.
 	virtual int LimitPriceMatch(ENTRUST entrust);
+	virtual int LinitBuy(QUOTATION &quotation);
+	virtual int LinitSell(QUOTATION &quotation);
 
 	//市价撮合.
 	virtual int MarketPriceMatch(ENTRUST entrust);
