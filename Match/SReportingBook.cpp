@@ -15,15 +15,15 @@ CSReportingBook::~CSReportingBook(void)
 
 int CSReportingBook::Add(QUOTATION quotation)
 {
-	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapReportingBook.find(quotation.nPrice);
-	if (iter == m_mapReportingBook.end())
+	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapSellReportingBook.find(quotation.nPrice);
+	if (iter == m_mapSellReportingBook.end())
 	{
 		//不存在该价格.
 
 		LIST_QUOTATION list_Quotation;
 		list_Quotation.push_back(quotation);
 
-		m_mapReportingBook[quotation.nPrice] = list_Quotation;
+		m_mapSellReportingBook[quotation.nPrice] = list_Quotation;
 	} 
 	else
 	{
@@ -35,6 +35,44 @@ int CSReportingBook::Add(QUOTATION quotation)
 	return 0;
 }
 
+LPMAP_SELL_REPORTINGBOOK CSReportingBook::GetReportingBook()
+{
+	return &m_mapSellReportingBook;
+}
+
+bool CSReportingBook::Exist(UINT	nPrice)
+{
+	
+	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapSellReportingBook.find(nPrice);
+
+	if (iter != m_mapSellReportingBook.end())
+	{
+		return true;
+	}
+
+	int nSize = m_mapSellReportingBook.size();
+
+	if (0 == nSize)
+	{
+		//压根就不存在数据.
+		return false;
+	}
+
+	if (nSize > 0)
+	{
+		iter = m_mapSellReportingBook.begin();
+
+		if (nPrice >= iter->first)
+		{
+			//买价 >= 卖价.
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 int CSReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {
 
@@ -43,9 +81,9 @@ int CSReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAl
 		return -1;
 	}
 
-	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapReportingBook.find(nKey);
+	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapSellReportingBook.find(nKey);
 
-	if (iter == m_mapReportingBook.end())
+	if (iter == m_mapSellReportingBook.end())
 	{
 		return -1;
 	}
@@ -111,10 +149,7 @@ int CSReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAl
 			{
 				//报价板上队列第一个.持有量小于成交的量.这是严重的bug.出现在撮合里.
 			}
-
 		}
-
-
 	}
 
 	return 0;

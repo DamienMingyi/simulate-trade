@@ -116,6 +116,7 @@
     <ClInclude Include="BReportingBook.h" />
     <ClInclude Include="IMatch.h" />
     <ClInclude Include="Match.h" />
+    <ClInclude Include="ReportingBook.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Rule.h" />
     <ClInclude Include="SReportingBook.h" />

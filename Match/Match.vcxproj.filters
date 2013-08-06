@@ -80,10 +80,10 @@
     <ClInclude Include="SReportingBook.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ReportingBook.h">
+    <ClInclude Include="BReportingBook.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BReportingBook.h">
+    <ClInclude Include="ReportingBook.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

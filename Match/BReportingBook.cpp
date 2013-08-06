@@ -35,6 +35,43 @@ int CBReportingBook::Add(QUOTATION quotation)
 	return 0;
 }
 
+
+LPMAP_BUY_REPORTINGBOOK CBReportingBook::GetReportingBook()
+{
+	return &m_mapBuyReportingBook;
+}
+
+bool CBReportingBook::Exist(UINT nPrice)
+{
+	MAP_BUY_REPORTINGBOOK::iterator iter = m_mapBuyReportingBook.find(nPrice);
+
+	if (iter != m_mapBuyReportingBook.end())
+	{
+		return true;
+	}
+
+	int nSize = m_mapBuyReportingBook.size();
+
+	if (0 == nSize)
+	{
+		//压根就不存在数据.
+		return false;
+	}
+
+	if (nSize > 0)
+	{
+		iter = m_mapBuyReportingBook.begin();
+
+		if (nPrice <= iter->first)
+		{
+			//卖价 <= 买价.
+			return true;
+		}
+	}
+
+	return false;
+}
+
 int CBReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {
 	if ((NULL == pListQuotation || pListQuotation->empty()) && false == bDelAll)
