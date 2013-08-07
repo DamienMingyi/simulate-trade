@@ -32,6 +32,8 @@ public:
 	
 	virtual bool Exist(UINT	nPrice);
 
+	//获取最优价格.
+	virtual int GetOptimalPrice();
 
 	/**
 	*	删除链表中的报价单.撮合后调用.

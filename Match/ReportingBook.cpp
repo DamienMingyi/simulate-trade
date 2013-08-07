@@ -24,7 +24,10 @@ bool CReportingBook::Exist(UINT	nPrice)
 	return true;
 }
 
-
+int CReportingBook::GetOptimalPrice()
+{
+	return 0;
+}
 
 int CReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {

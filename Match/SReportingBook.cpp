@@ -72,6 +72,22 @@ bool CSReportingBook::Exist(UINT	nPrice)
 	return false;
 }
 
+int CSReportingBook::GetOptimalPrice()
+{
+	UINT nPrice = 0;
+	MAP_SELL_REPORTINGBOOK::const_iterator iter = m_mapSellReportingBook.begin();
+	for ( ; iter != m_mapSellReportingBook.end(); ++iter)
+	{
+		if (iter->second.size() > 0)
+		{
+			nPrice = iter->first;
+			break;
+		}
+	}
+
+	return nPrice;
+}
+
 
 int CSReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {
