@@ -40,16 +40,8 @@ LPMAP_SELL_REPORTINGBOOK CSReportingBook::GetReportingBook()
 	return &m_mapSellReportingBook;
 }
 
-bool CSReportingBook::Exist(UINT	nPrice)
+bool CSReportingBook::Exist(UINT nPrice)
 {
-	
-	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapSellReportingBook.find(nPrice);
-
-	if (iter != m_mapSellReportingBook.end())
-	{
-		return true;
-	}
-
 	int nSize = m_mapSellReportingBook.size();
 
 	if (0 == nSize)
@@ -57,18 +49,25 @@ bool CSReportingBook::Exist(UINT	nPrice)
 		//压根就不存在数据.
 		return false;
 	}
+	
+	MAP_SELL_REPORTINGBOOK::iterator iter = m_mapSellReportingBook.find(nPrice);
 
-	if (nSize > 0)
+	//存在该价格.并有委托数据.
+	if (iter != m_mapSellReportingBook.end() && (iter->second).size() > 0)
 	{
-		iter = m_mapSellReportingBook.begin();
+		return true;
+	}
 
-		if (nPrice >= iter->first)
+	iter = m_mapSellReportingBook.begin();
+	for ( ; iter != m_mapSellReportingBook.end(); ++iter)
+	{
+		if (nPrice >= iter->first && (iter->second).size() > 0)
 		{
 			//买价 >= 卖价.
 			return true;
 		}
 	}
-
+	
 	return false;
 }
 

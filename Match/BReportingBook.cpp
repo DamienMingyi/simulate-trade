@@ -43,13 +43,6 @@ LPMAP_BUY_REPORTINGBOOK CBReportingBook::GetReportingBook()
 
 bool CBReportingBook::Exist(UINT nPrice)
 {
-	MAP_BUY_REPORTINGBOOK::iterator iter = m_mapBuyReportingBook.find(nPrice);
-
-	if (iter != m_mapBuyReportingBook.end())
-	{
-		return true;
-	}
-
 	int nSize = m_mapBuyReportingBook.size();
 
 	if (0 == nSize)
@@ -58,11 +51,18 @@ bool CBReportingBook::Exist(UINT nPrice)
 		return false;
 	}
 
-	if (nSize > 0)
-	{
-		iter = m_mapBuyReportingBook.begin();
+	MAP_BUY_REPORTINGBOOK::iterator iter = m_mapBuyReportingBook.find(nPrice);
 
-		if (nPrice <= iter->first)
+	if (iter != m_mapBuyReportingBook.end() && (iter->second).size() > 0)
+	{
+		return true;
+	}
+
+	iter = m_mapBuyReportingBook.begin();
+
+	for ( ; iter != m_mapBuyReportingBook.end(); ++iter)
+	{
+		if (nPrice <= iter->first && (iter->second).size() > 0)
 		{
 			//Âô¼Û <= Âò¼Û.
 			return true;

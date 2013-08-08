@@ -34,8 +34,12 @@ public:
 	//深圳-全额成交或撤销委托(FOK).
 	virtual int AllTransactionsOrCancel(ENTRUST entrust);
 
-	//
+	//最优五档买卖.
 	virtual int Optimal5Buy(QUOTATION &quotation);
 	virtual int Optimal5Sell(QUOTATION &quotation);
+
+	//立刻买卖.
+	virtual int ImmediateBuy(QUOTATION &quotation);
+	virtual int ImmediateSell(QUOTATION &quotation);
 };
 

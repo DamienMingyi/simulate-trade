@@ -84,6 +84,11 @@ int CMatch::LimitBuy(QUOTATION &quotation)
 		//价格无法成交.
 		if (quotation.nPrice >= map_iter->first)
 		{
+			if (0 == (map_iter->second).size())
+			{
+				continue;
+			}
+
 			LIST_QUOTATION::const_iterator list_iter = (map_iter->second).begin();
 
 			LIST_QUOTATION listQuotation;//成交列表.
@@ -164,6 +169,11 @@ int CMatch::LimitSell(QUOTATION &quotation)
 	{
 		if (quotation.nPrice <= map_iter->first)
 		{
+			if (0 == (map_iter->second).size())
+			{
+				continue;
+			}
+
 			LIST_QUOTATION::const_iterator list_iter = (map_iter->second).begin();
 
 			LIST_QUOTATION listQuotation;//成交列表.
