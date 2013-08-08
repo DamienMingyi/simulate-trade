@@ -21,7 +21,7 @@ public:
 	virtual bool Exist(UINT	nPrice);
 	//获取最优价格.
 	virtual int GetOptimalPrice();
-
+	virtual UINT GetEffectiveQuotationListCount();
 	virtual int Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll = false);//从报价板中撤单.撮合后调用.
 
 private:

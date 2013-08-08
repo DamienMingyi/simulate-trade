@@ -29,6 +29,11 @@ int CReportingBook::GetOptimalPrice()
 	return 0;
 }
 
+UINT CReportingBook::GetEffectiveQuotationListCount()
+{
+	return 0;
+}
+
 int CReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {
 	

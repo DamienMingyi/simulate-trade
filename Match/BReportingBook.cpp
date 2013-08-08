@@ -88,6 +88,23 @@ int CBReportingBook::GetOptimalPrice()
 	return nPrice;
 }
 
+UINT CBReportingBook::GetEffectiveQuotationListCount()
+{
+	MAP_BUY_REPORTINGBOOK::const_iterator iter = m_mapBuyReportingBook.begin();
+	UINT nCount = 0;
+
+	for ( ; iter != m_mapBuyReportingBook.end(); ++iter)
+	{
+		if ((iter->second).size() > 0)
+		{
+			nCount++;
+		}
+	}
+
+	return nCount;
+}
+
+
 int CBReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {
 	if ((NULL == pListQuotation || pListQuotation->empty()) && false == bDelAll)

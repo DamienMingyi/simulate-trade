@@ -66,14 +66,13 @@ int CSHMatch::MarketPriceMatch(ENTRUST entrust)
 
 int CSHMatch::Optimal5TurnTOCancel(ENTRUST entrust)
 {
+	QUOTATION quotation;
+	entrust.toQuotation(quotation);
+
 	switch(entrust.nBS)
 	{
 	case ENTRUST_BUY://买.
 		{
-
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			Optimal5Buy(quotation);
 
 			//剩余的单撤销.
@@ -81,9 +80,6 @@ int CSHMatch::Optimal5TurnTOCancel(ENTRUST entrust)
 		break;
 	case ENTRUST_SELL://卖.
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			Optimal5Sell(quotation);
 
 			//剩余的单撤销.
@@ -100,14 +96,13 @@ int CSHMatch::Optimal5TurnTOCancel(ENTRUST entrust)
 
 int CSHMatch::Optimal5TurnTOLimit(ENTRUST entrust)
 {
+	QUOTATION quotation;
+	entrust.toQuotation(quotation);
+
 	switch(entrust.nBS)
 	{
 	case ENTRUST_BUY://买.
 		{
-
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			Optimal5Buy(quotation);
 
 			//市价撮合后剩余的单.转入限价单.
@@ -134,9 +129,6 @@ int CSHMatch::Optimal5TurnTOLimit(ENTRUST entrust)
 		break;
 	case ENTRUST_SELL://卖.
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			Optimal5Sell(quotation);
 
 			//市价撮合后剩余的单.转入限价单.

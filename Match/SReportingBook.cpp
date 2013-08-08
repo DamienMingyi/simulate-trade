@@ -87,6 +87,21 @@ int CSReportingBook::GetOptimalPrice()
 	return nPrice;
 }
 
+UINT CSReportingBook::GetEffectiveQuotationListCount()
+{
+	MAP_SELL_REPORTINGBOOK::const_iterator iter = m_mapSellReportingBook.begin();
+	UINT nCount = 0;
+
+	for ( ; iter != m_mapSellReportingBook.end(); ++iter)
+	{
+		if ((iter->second).size() > 0)
+		{
+			nCount++;
+		}
+	}
+
+	return nCount;
+}
 
 int CSReportingBook::Del(UINT nKey, LPLIST_QUOTATION pListQuotation, bool bDelAll)
 {

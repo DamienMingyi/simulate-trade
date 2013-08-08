@@ -34,7 +34,8 @@ public:
 
 	//获取最优价格.
 	virtual int GetOptimalPrice();
-
+	//获取有效的报价队列个数.
+	virtual UINT GetEffectiveQuotationListCount();
 	/**
 	*	删除链表中的报价单.撮合后调用.
 	*	@param nKey 报价板中的价格.

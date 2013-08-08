@@ -38,8 +38,13 @@ public:
 	virtual int Optimal5Buy(QUOTATION &quotation);
 	virtual int Optimal5Sell(QUOTATION &quotation);
 
-	//立刻买卖.
+	//即时买卖.
 	virtual int ImmediateBuy(QUOTATION &quotation);
 	virtual int ImmediateSell(QUOTATION &quotation);
+
+	//全额成交
+	virtual int AllTransactionsBuy(QUOTATION &quotation);
+	virtual int AllTransactionsSell(QUOTATION &quotation);
+
 };
 

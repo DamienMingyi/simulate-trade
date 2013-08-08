@@ -163,14 +163,13 @@ int CSZMatch::OurSideOptimalPrice(ENTRUST entrust)
 
 int CSZMatch::Optimal5TurnTOCancel(ENTRUST entrust)
 {
+	QUOTATION quotation;
+	entrust.toQuotation(quotation);
+
 	switch(entrust.nBS)
 	{
 	case ENTRUST_BUY://买.
 		{
-
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			Optimal5Buy(quotation);
 
 			//剩余的单撤销.
@@ -178,9 +177,6 @@ int CSZMatch::Optimal5TurnTOCancel(ENTRUST entrust)
 		break;
 	case ENTRUST_SELL://卖.
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			Optimal5Sell(quotation);
 
 			//剩余的单撤销.
@@ -196,13 +192,13 @@ int CSZMatch::Optimal5TurnTOCancel(ENTRUST entrust)
 
 int CSZMatch::ImmediateTurnTOCancel(ENTRUST entrust)
 {
+	QUOTATION quotation;
+	entrust.toQuotation(quotation);
+
 	switch(entrust.nBS)
 	{
 	case ENTRUST_BUY://买.
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			//撮合.
 			LimitBuy(quotation);
 			
@@ -212,9 +208,6 @@ int CSZMatch::ImmediateTurnTOCancel(ENTRUST entrust)
 		break;
 	case ENTRUST_SELL:
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			//撮合.
 			ImmediateSell(quotation);
 
@@ -229,16 +222,24 @@ int CSZMatch::ImmediateTurnTOCancel(ENTRUST entrust)
 }
 int CSZMatch::AllTransactionsOrCancel(ENTRUST entrust)
 {
+	QUOTATION quotation;
+	entrust.toQuotation(quotation);
+
 	switch(entrust.nBS)
 	{
 	case ENTRUST_BUY://买.
 		{
+			//撮合.
+			AllTransactionsBuy(quotation);
 
+			//不能全额成交则撤销.
 		}
 		break;
 	case ENTRUST_SELL:
 		{
+			AllTransactionsSell(quotation);
 
+			//不能全额成交则撤销.
 		}
 		break;
 	default:
@@ -512,7 +513,7 @@ int CSZMatch::ImmediateSell(QUOTATION &quotation)
 
 	MAP_BUY_REPORTINGBOOK::iterator map_iter = pBuyReportingBook->begin();
 
-	UINT nCount = 0;//每条链表成交量的计数.
+	UINT nListCount = 0;//每条链表成交量的计数.
 
 	for ( ; map_iter != pBuyReportingBook->end(); ++map_iter)
 	{
@@ -525,25 +526,25 @@ int CSZMatch::ImmediateSell(QUOTATION &quotation)
 		LIST_QUOTATION::const_iterator list_iter = (map_iter->second).begin();
 
 		LIST_QUOTATION listQuotation;//成交列表.
-		nCount = 0;
+		nListCount = 0;
 		bool bLastCompleteTurnover = false;//最后一般是否完全成交.
 
 		for ( ; list_iter != (map_iter->second).end(); ++list_iter)
 		{
-			nCount += list_iter->nCount;
+			nListCount += list_iter->nCount;
 
-			if (nCount >= quotation.nCount)
+			if (nListCount >= quotation.nCount)
 			{
 				//成交足够.
 				QUOTATION quotationTmp = (*list_iter);
-				quotationTmp.nCount = quotationTmp.nCount - (nCount - quotation.nCount);//计算剩余.
+				quotationTmp.nCount = quotationTmp.nCount - (nListCount - quotation.nCount);//计算剩余.
 
 				if (0 == quotationTmp.nCount)
 				{
 					bLastCompleteTurnover = true;
 				}
 
-				nCount = quotation.nCount;
+				nListCount = quotation.nCount;
 
 				listQuotation.push_back(quotationTmp);
 
@@ -565,9 +566,9 @@ int CSZMatch::ImmediateSell(QUOTATION &quotation)
 		else
 		{
 			//有剩余.
-			if (nCount > 0)
+			if (nListCount > 0)
 			{
-				quotation.nCount = quotation.nCount - nCount;
+				quotation.nCount = quotation.nCount - nListCount;
 				m_sellReportingBook.Del(map_iter->first, &listQuotation);
 			}
 		}
@@ -578,3 +579,174 @@ int CSZMatch::ImmediateSell(QUOTATION &quotation)
 
 	return 0;
 }
+
+
+int CSZMatch::AllTransactionsBuy(QUOTATION &quotation)
+{
+	LPMAP_SELL_REPORTINGBOOK pSellReportingBook = m_sellReportingBook.GetReportingBook();
+
+	MAP_SELL_REPORTINGBOOK::iterator map_iter = pSellReportingBook->begin();
+
+	UINT nListCount = 0;//每条链表成交量的计数.
+	UINT nEffectiveQuotationListCount = m_sellReportingBook.GetEffectiveQuotationListCount();
+	UINT nEffectiveListCount = 0;//有效链接计数.
+
+	if (0 == nEffectiveQuotationListCount)
+	{
+		return -1;
+	}
+
+	LPLIST_QUOTATION pList_Quotation = new LIST_QUOTATION[nEffectiveQuotationListCount];
+
+	bool bCompleteTurnover = false;//是否完全成交.
+
+	for ( ; map_iter != pSellReportingBook->end(), nEffectiveListCount < nEffectiveQuotationListCount; ++map_iter)
+	{
+		//委托队列中没有委托.
+		if (0 == (map_iter->second).size())
+		{
+			continue;
+		}
+
+		LIST_QUOTATION::const_iterator list_iter = (map_iter->second).begin();
+
+		for ( ; list_iter != (map_iter->second).end(); ++list_iter)
+		{
+			nListCount += list_iter->nCount;
+
+			if (nListCount >= quotation.nCount)
+			{
+				//成交足够.
+				QUOTATION quotationTmp = (*list_iter);
+				quotationTmp.nCount = quotationTmp.nCount - (nListCount - quotation.nCount);//计算最后一单成交量.
+
+				//全部成交.
+				bCompleteTurnover = true;
+				
+				pList_Quotation[nEffectiveListCount].push_back(quotationTmp);
+				
+				break;//for ( ; list_iter != (map_iter->second).end(); ++list_iter)
+
+			}else
+			{
+				pList_Quotation[nEffectiveListCount].push_back((*list_iter));
+			}
+		}
+
+		nEffectiveListCount++;
+
+		if (bCompleteTurnover)
+		{
+			break;//for ( ; map_iter != pSellReportingBook->end(); ++map_iter)
+		}
+	}
+
+	//完全成交.
+	if (bCompleteTurnover)
+	{
+		for (UINT i = 0; i < nEffectiveListCount; i++)
+		{
+			QUOTATION quotationTmp = pList_Quotation[i].front();
+			
+			m_sellReportingBook.Del(quotationTmp.nPrice,&pList_Quotation[i]);
+			
+		}
+		
+		quotation.nCount = 0;//quotation.nCount-nCount;
+	}
+
+	//释放.
+	if (pList_Quotation)
+	{
+		delete pList_Quotation;
+		pList_Quotation = NULL;
+	}
+
+	return 0;
+}
+
+int CSZMatch::AllTransactionsSell(QUOTATION &quotation)
+{
+	LPMAP_BUY_REPORTINGBOOK pBuyReportingBook = m_buyReportingBook.GetReportingBook();
+
+	MAP_BUY_REPORTINGBOOK::iterator map_iter = pBuyReportingBook->begin();
+
+	UINT nListCount = 0;//每条链表成交量的计数.
+	UINT nEffectiveQuotationListCount = m_buyReportingBook.GetEffectiveQuotationListCount();
+	UINT nEffectiveListCount = 0;//有效链接计数.
+
+	if (0 == nEffectiveQuotationListCount)
+	{
+		return -1;
+	}
+
+	LPLIST_QUOTATION pList_Quotation = new LIST_QUOTATION[nEffectiveQuotationListCount];
+
+	bool bCompleteTurnover = false;//是否完全成交.
+
+	for ( ; map_iter != pBuyReportingBook->end(), nEffectiveListCount < nEffectiveQuotationListCount; ++map_iter)
+	{
+		//委托队列中没有委托.
+		if (0 == (map_iter->second).size())
+		{
+			continue;
+		}
+
+		LIST_QUOTATION::const_iterator list_iter = (map_iter->second).begin();
+
+		for ( ; list_iter != (map_iter->second).end(); ++list_iter)
+		{
+			nListCount += list_iter->nCount;
+
+			if (nListCount >= quotation.nCount)
+			{
+				//成交足够.
+				QUOTATION quotationTmp = (*list_iter);
+				quotationTmp.nCount = quotationTmp.nCount - (nListCount - quotation.nCount);//计算剩余.
+
+				//全部成交.
+				bCompleteTurnover = true;
+				
+				pList_Quotation[nEffectiveListCount].push_back(quotationTmp);
+
+				break;
+
+			}else
+			{
+				pList_Quotation[nEffectiveListCount].push_back((*list_iter));
+			}
+		}
+
+		nEffectiveListCount++;
+
+		if (bCompleteTurnover)
+		{
+			break;//for ( ; map_iter != pSellReportingBook->end(); ++map_iter)
+		}
+	}
+
+	//完全成交.
+	if (bCompleteTurnover)
+	{
+		for (UINT i = 0; i < nEffectiveListCount; i++)
+		{
+			QUOTATION quotationTmp = pList_Quotation[i].front();
+
+			m_buyReportingBook.Del(quotationTmp.nPrice,&pList_Quotation[i]);
+
+		}
+
+		quotation.nCount = 0;//quotation.nCount-nCount;
+	}
+
+	//释放.
+	if (pList_Quotation)
+	{
+		delete pList_Quotation;
+		pList_Quotation = NULL;
+	}
+
+	return 0;
+}
+
+

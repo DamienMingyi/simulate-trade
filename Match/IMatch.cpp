@@ -22,13 +22,13 @@ int CMatch::Match(ENTRUST entrust)
 //限价撮合.
 int CMatch::LimitPriceMatch(ENTRUST entrust)
 {
+	QUOTATION quotation;
+	entrust.toQuotation(quotation);
+
 	switch(entrust.nBS)
 	{
 	case ENTRUST_BUY://买.
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			if (m_sellReportingBook.Exist(quotation.nPrice))
 			{
 				//卖申报薄中存在可撮合数据.
@@ -46,9 +46,6 @@ int CMatch::LimitPriceMatch(ENTRUST entrust)
 		break;
 	case ENTRUST_SELL://卖.
 		{
-			QUOTATION quotation;
-			entrust.toQuotation(quotation);
-
 			if (m_buyReportingBook.Exist(quotation.nPrice))
 			{
 				//买申报薄中存在可撮合数据.
