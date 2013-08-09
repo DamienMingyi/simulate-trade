@@ -66,6 +66,16 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy ".\\BReportingBook.h" "..\\include\\match\\"
+copy ".\\IMatch.h" "..\\include\\match\\"
+copy ".\\ReportingBook.h" "..\\include\\match\\"
+copy ".\\Rule.h" "..\\include\\match\\"
+copy ".\\SHMatch.h" "..\\include\\match\\"
+copy ".\\SReportingBook.h" "..\\include\\match\\"
+copy ".\\SZMatch.h" "..\\include\\match\\"
+copy "$(SolutionDir)$(Configuration)\match.lib" "..\\lib\\match\\x86\\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -92,6 +102,16 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>copy ".\\BReportingBook.h" "..\\include\\match\\"
+copy ".\\IMatch.h" "..\\include\\match\\"
+copy ".\\ReportingBook.h" "..\\include\\match\\"
+copy ".\\Rule.h" "..\\include\\match\\"
+copy ".\\SHMatch.h" "..\\include\\match\\"
+copy ".\\SReportingBook.h" "..\\include\\match\\"
+copy ".\\SZMatch.h" "..\\include\\match\\"
+copy "$(SolutionDir)$(Configuration)\match.lib" "..\\lib\\match\\x86\\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="Match.def" />
