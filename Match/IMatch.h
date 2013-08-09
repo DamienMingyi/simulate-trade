@@ -6,7 +6,7 @@
 #include "SReportingBook.h"
 #include "BReportingBook.h"
 
-class CMatch
+class STX_EXT_CLASS  CMatch
 {
 public:
 	CMatch(void);

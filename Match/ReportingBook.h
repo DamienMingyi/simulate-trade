@@ -20,7 +20,7 @@ typedef std::map<UINT,LIST_QUOTATION,COMPARE> MAP_BUY_REPORTINGBOOK,*LPMAP_BUY_R
 
 
 
-class CReportingBook
+class STX_EXT_CLASS  CReportingBook
 {
 public:
 	CReportingBook(void);

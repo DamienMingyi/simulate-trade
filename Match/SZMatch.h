@@ -1,6 +1,6 @@
 #pragma once
 #include "imatch.h"
-class CSZMatch :
+class STX_EXT_CLASS  CSZMatch :
 	public CMatch
 {
 public:

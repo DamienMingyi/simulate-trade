@@ -1,5 +1,5 @@
 #pragma once
-class CRule
+class STX_EXT_CLASS  CRule
 {
 public:
 	CRule(void);

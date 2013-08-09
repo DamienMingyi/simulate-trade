@@ -6,7 +6,7 @@
 #include "ReportingBook.h"
 
 
-class CSReportingBook :
+class STX_EXT_CLASS  CSReportingBook :
 	public CReportingBook
 {
 public:

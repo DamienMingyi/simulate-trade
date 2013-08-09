@@ -7,7 +7,7 @@
 
 
 
-class CBReportingBook :
+class STX_EXT_CLASS  CBReportingBook :
 	public CReportingBook
 {
 public:
